@@ -1,98 +1,81 @@
-// Popup script to display attendance information
+document.addEventListener('DOMContentLoaded', function() {
+    const totalClassesInput = document.getElementById('totalClasses');
+    const attendedClassesInput = document.getElementById('attendedClasses');
+    const calculateButton = document.getElementById('calculate');
+    const resultDiv = document.getElementById('result');
+    const percentageDiv = document.getElementById('percentage');
+    const statusDiv = document.getElementById('status');
 
-document.addEventListener('DOMContentLoaded', () => {
-    const contentDiv = document.getElementById('content');
-
-    // Function to show loading state
-    function showLoading() {
-        contentDiv.innerHTML = '<p class="loading">Loading attendance data...</p>';
-    }
-
-    // Function to show error state
-    function showError(message) {
-        contentDiv.innerHTML = `<p class="error">${message}</p>`;
-    }
-
-    // Function to update the popup UI
-    function updateUI(status) {
-        if (!status) {
-            showError('Unable to calculate attendance status.');
-            return;
-        }
-
-        let html = `
-            <div class="status ${status.status}">
-                <div class="percentage">${status.currentPercentage}%</div>
-                <div class="details">
-                    <p>Total Classes: ${status.total}</p>
-                    <p>Classes Attended: ${status.attended}</p>
-                </div>
-                <div class="message">`;
-
-        if (status.status === 'above') {
-            html += `You can safely skip ${status.canSkip} more ${status.canSkip === 1 ? 'class' : 'classes'} 
-                    and still maintain 75% attendance.`;
-        } else {
-            html += `You need to attend ${status.needToAttend} more ${status.needToAttend === 1 ? 'class' : 'classes'} 
-                    to reach 75% attendance.`;
-        }
-
-        html += '</div></div>';
-        contentDiv.innerHTML = html;
-    }
-
-    // Listen for attendance updates from background script
-    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-        if (request.action === 'attendanceUpdated') {
-            updateUI(request.status);
-        }
+    // Load saved values if any
+    chrome.storage.local.get(['totalClasses', 'attendedClasses'], (result) => {
+        if (result.totalClasses) totalClassesInput.value = result.totalClasses;
+        if (result.attendedClasses) attendedClassesInput.value = result.attendedClasses;
     });
 
-    // Check if we're on the attendance page
-    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
-        const currentTab = tabs[0];
-        if (!currentTab.url) {
-            showError('Unable to access current tab.');
+    // Input validation for both inputs
+    const validateInputs = () => {
+        const total = parseInt(totalClassesInput.value) || 0;
+        const attended = parseInt(attendedClassesInput.value) || 0;
+
+        if (total < 0) totalClassesInput.value = 0;
+        if (attended < 0) attendedClassesInput.value = 0;
+        if (attended > total) attendedClassesInput.value = total;
+
+        return { total, attended };
+    };
+
+    totalClassesInput.addEventListener('input', validateInputs);
+    attendedClassesInput.addEventListener('input', validateInputs);
+
+    calculateButton.addEventListener('click', () => {
+        const { total, attended } = validateInputs();
+
+        if (total <= 0) {
+            alert('Please enter a valid number of total classes');
             return;
         }
 
-        if (currentTab.url.includes('g21.tcsion.com')) {
-            showLoading();
-            // First check storage for existing data
-            chrome.storage.local.get(['attendanceStatus'], (result) => {
-                if (chrome.runtime.lastError) {
-                    showError('Error accessing storage.');
-                    return;
-                }
+        // Save values
+        chrome.storage.local.set({
+            totalClasses: total,
+            attendedClasses: attended
+        });
 
-                if (result.attendanceStatus) {
-                    updateUI(result.attendanceStatus);
-                } else {
-                    // Request new data from content script
-                    chrome.tabs.sendMessage(currentTab.id, {action: 'getAttendance'}, (response) => {
-                        if (chrome.runtime.lastError) {
-                            showError('Please navigate to the attendance page to view your status.');
-                            return;
-                        }
+        const percentage = Math.min(100, (attended / total) * 100);
+        percentageDiv.textContent = `${percentage.toFixed(1)}%`;
 
-                        if (response) {
-                            const status = {
-                                status: response.percentage >= 75 ? 'above' : 'below',
-                                currentPercentage: response.percentage.toFixed(2),
-                                total: response.total,
-                                attended: response.attended,
-                                canSkip: Math.floor((response.attended / 0.75) - response.total),
-                                needToAttend: Math.ceil((0.75 * response.total - response.attended) / (1 - 0.75))
-                            };
-                            updateUI(status);
-                        } else {
-                            showError('Please navigate to the attendance page to view your status.');
-                        }
-                    });
-                }
-            });
+        // Update status message and style
+        let statusMessage, statusClass;
+        if (percentage >= 85) {
+            statusMessage = 'You\'re doing great! 🎉';
+            statusClass = 'good';
+        } else if (percentage >= 75) {
+            statusMessage = 'Almost there! Keep it up! 💪';
+            statusClass = 'warning';
         } else {
-            showError('Please navigate to the KJC portal to view your attendance status.');
+            statusMessage = 'Need to attend more classes! 📚';
+            statusClass = 'danger';
+        }
+
+        statusDiv.textContent = statusMessage;
+        statusDiv.className = 'status ' + statusClass;
+        resultDiv.style.display = 'block';
+
+        // Calculate bunking possibilities
+        const requiredPercentage = 75;
+        
+        if (percentage < requiredPercentage) {
+            // Calculate classes needed to reach 75%
+            const classesNeeded = Math.ceil((requiredPercentage * total - 100 * attended) / (100 - requiredPercentage));
+            if (classesNeeded > 0) {
+                statusDiv.textContent = `${statusMessage}\n\nYou need to attend ${classesNeeded} more class${classesNeeded === 1 ? '' : 'es'} to reach ${requiredPercentage}%`;
+            }
+        } else {
+            // Calculate how many classes can be safely skipped
+            const maxSkippable = Math.floor((100 * attended - requiredPercentage * total) / requiredPercentage);
+            if (maxSkippable > 0) {
+                statusDiv.textContent = `${statusMessage}\n\nYou can safely skip ${maxSkippable} more class${maxSkippable === 1 ? '' : 'es'} while maintaining ${requiredPercentage}%`;
+            }
         }
     });
 });

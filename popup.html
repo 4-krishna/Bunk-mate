@@ -1,64 +1,134 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Bunk Mate KJC</title>
+    <title>Bunk Mate</title>
     <style>
-        body {
-            width: 300px;
-            padding: 15px;
-            font-family: Arial, sans-serif;
+        :root {
+            --primary-color: #007AFF;
+            --background-color: #F5F5F7;
+            --text-color: #1D1D1F;
+            --border-color: #D2D2D7;
         }
+
+        body {
+            width: 320px;
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
         .container {
+            background-color: white;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0 0 20px;
             text-align: center;
         }
-        .status {
-            margin: 15px 0;
-            padding: 10px;
-            border-radius: 5px;
+
+        .input-group {
+            margin-bottom: 16px;
         }
-        .above {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .below {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        .percentage {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-        .message {
-            font-size: 16px;
-            line-height: 1.4;
-        }
-        .loading {
-            color: #666;
-            font-style: italic;
-        }
-        .error {
-            color: #dc3545;
-            padding: 10px;
-            background-color: #f8d7da;
-            border-radius: 4px;
-            margin: 10px 0;
-        }
-        .details {
-            margin: 10px 0;
+
+        label {
+            display: block;
             font-size: 14px;
-            color: #666;
+            margin-bottom: 8px;
+            color: #86868B;
         }
-        .details p {
-            margin: 5px 0;
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            border-color: var(--primary-color);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .percentage {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 8px 0;
+        }
+
+        .status {
+            font-size: 14px;
+            margin-top: 8px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .status.good {
+            background-color: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .status.warning {
+            background-color: #FFF3E0;
+            color: #E65100;
+        }
+
+        .status.danger {
+            background-color: #FFEBEE;
+            color: #C62828;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Attendance Status</h2>
-        <div id="content">
-            <p class="loading">Loading attendance data...</p>
+        <h1>Attendance Calculator</h1>
+        <div class="input-group">
+            <label for="totalClasses">Total Classes</label>
+            <input type="number" id="totalClasses" min="1" placeholder="Enter total number of classes">
+        </div>
+        <div class="input-group">
+            <label for="attendedClasses">Classes Attended</label>
+            <input type="number" id="attendedClasses" min="0" placeholder="Enter classes attended">
+        </div>
+        <button id="calculate">Calculate</button>
+        <div class="result" id="result" style="display: none;">
+            <div class="percentage" id="percentage">0%</div>
+            <div class="status" id="status"></div>
         </div>
     </div>
     <script src="popup.js"></script>

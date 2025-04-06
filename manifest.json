@@ -1,23 +1,16 @@
 {
   "manifest_version": 3,
-  "name": "Bunk Mate for KJC",
+  "name": "Bunk Mate",
   "version": "1.0",
-  "description": "Helps KJC students track and calculate their attendance requirements",
+  "description": "A minimalist attendance calculator to help students track their attendance",
   "permissions": [
-    "activeTab",
-    "scripting"
-  ],
-  "host_permissions": [
-    "https://g21.tcsion.com/*"
+    "storage"
   ],
   "action": {
     "default_popup": "popup.html"
   },
-  "content_scripts": [{
-    "matches": ["https://g21.tcsion.com/*"],
-    "js": ["content.js"]
-  }],
-  "background": {
-    "service_worker": "background.js"
+  "icons": {
+    "48": "icon48.png",
+    "128": "icon128.png"
   }
 }
