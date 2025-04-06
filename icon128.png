@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <rect width="128" height="128" rx="20" fill="#4CAF50"/>
+  <text x="64" y="80" font-family="Arial" font-size="64" fill="white" text-anchor="middle">BM</text>
+  <path d="M64 12C35.87 12 12 35.87 12 64s23.87 52 52 52 52-23.87 52-52S92.13 12 64 12zm0 96c-24.3 0-44-19.7-44-44s19.7-44 44-44 44 19.7 44 44-19.7 44-44 44z" fill="white" fill-opacity="0.2"/>
+</svg>
