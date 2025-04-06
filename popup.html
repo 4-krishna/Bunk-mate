@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bunk Mate KJC</title>
+    <style>
+        body {
+            width: 300px;
+            padding: 15px;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+        }
+        .status {
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .above {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .below {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .percentage {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .message {
+            font-size: 16px;
+            line-height: 1.4;
+        }
+        .loading {
+            color: #666;
+            font-style: italic;
+        }
+        .error {
+            color: #dc3545;
+            padding: 10px;
+            background-color: #f8d7da;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .details {
+            margin: 10px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .details p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Attendance Status</h2>
+        <div id="content">
+            <p class="loading">Loading attendance data...</p>
+        </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>
