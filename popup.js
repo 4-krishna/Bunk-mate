@@ -41,41 +41,34 @@ document.addEventListener('DOMContentLoaded', function() {
             attendedClasses: attended
         });
 
-        const percentage = Math.min(100, (attended / total) * 100);
-        percentageDiv.textContent = `${percentage.toFixed(1)}%`;
+        const percentage = (attended / total) * 100;
+        const requiredPercentage = 75;
+        let statusMessage = '';
+        let statusClass = percentage >= requiredPercentage ? 'good' : 'danger';
 
-        // Update status message and style
-        let statusMessage, statusClass;
-        if (percentage >= 85) {
-            statusMessage = 'You\'re doing great! 🎉';
-            statusClass = 'good';
-        } else if (percentage >= 75) {
-            statusMessage = 'Almost there! Keep it up! 💪';
-            statusClass = 'warning';
+        if (percentage >= requiredPercentage) {
+            // Calculate how many classes can be safely skipped
+            const maxSkippable = Math.floor((100 * attended - requiredPercentage * total) / requiredPercentage);
+            const futureTotal = total + maxSkippable;
+            const futurePercentage = (attended / futureTotal) * 100;
+
+            statusMessage = `You can bunk for ${maxSkippable} more hours\n`;
+            statusMessage += `Current Attendance: ${attended}/${total} -> ${percentage.toFixed(2)}%\n`;
+            statusMessage += `Attendance Then: ${attended}/${futureTotal} -> ${futurePercentage.toFixed(2)}%`;
         } else {
-            statusMessage = 'Need to attend more classes! 📚';
-            statusClass = 'danger';
+            // Calculate classes needed to reach 75%
+            const classesNeeded = Math.ceil((requiredPercentage * total - 100 * attended) / (100 - requiredPercentage));
+            const futureTotal = total + classesNeeded;
+            const futureAttended = attended + classesNeeded;
+
+            statusMessage = `You need to attend ${classesNeeded} more classes to attain ${requiredPercentage}% attendance\n`;
+            statusMessage += `Current Attendance: ${attended}/${total} -> ${percentage.toFixed(2)}%\n`;
+            statusMessage += `Attendance Required: ${futureAttended}/${futureTotal} -> ${requiredPercentage.toFixed(2)}%`;
         }
 
+        percentageDiv.textContent = `${percentage.toFixed(2)}%`;
         statusDiv.textContent = statusMessage;
         statusDiv.className = 'status ' + statusClass;
         resultDiv.style.display = 'block';
-
-        // Calculate bunking possibilities
-        const requiredPercentage = 75;
-        
-        if (percentage < requiredPercentage) {
-            // Calculate classes needed to reach 75%
-            const classesNeeded = Math.ceil((requiredPercentage * total - 100 * attended) / (100 - requiredPercentage));
-            if (classesNeeded > 0) {
-                statusDiv.textContent = `${statusMessage}\n\nYou need to attend ${classesNeeded} more class${classesNeeded === 1 ? '' : 'es'} to reach ${requiredPercentage}%`;
-            }
-        } else {
-            // Calculate how many classes can be safely skipped
-            const maxSkippable = Math.floor((100 * attended - requiredPercentage * total) / requiredPercentage);
-            if (maxSkippable > 0) {
-                statusDiv.textContent = `${statusMessage}\n\nYou can safely skip ${maxSkippable} more class${maxSkippable === 1 ? '' : 'es'} while maintaining ${requiredPercentage}%`;
-            }
-        }
     });
 });
