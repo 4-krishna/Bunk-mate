@@ -113,9 +113,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
             showAutoStatus('Extracting attendance data...', 'info');
 
-            // Send message to content script
-            const response = await chrome.tabs.sendMessage(tab.id, { action: 'extractAttendance' });
-            console.log('Extraction response:', response);
+            // Send message to content script with proper error handling
+            let response;
+            try {
+                response = await chrome.tabs.sendMessage(tab.id, { action: 'extractData' });
+                console.log('Extraction response:', response);
+            } catch (error) {
+                console.error('Message sending error:', error);
+                showAutoStatus('Communication error. Please refresh the page and try again.', 'error');
+                return;
+            }
+
+            if (!response) {
+                showAutoStatus('No response from content script. Please refresh the page and try again.', 'error');
+                return;
+            }
             
             if (response && response.found) {
                 // Save the extracted data

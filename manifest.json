@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Bunk Mate",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "A minimalist attendance calculator with TCS iON auto-detection to help students track their attendance",
   "permissions": [
     "storage",

@@ -875,7 +875,6 @@
                     };
                     
                     debugLog('Sending response:', pageInfo);
-                    sendResponse(pageInfo);
                     
                     // Also store the data if found
                     if (attendanceData.found) {
@@ -889,6 +888,10 @@
                         }
                     }
                     
+                    // Send response immediately
+                    sendResponse(pageInfo);
+                    return true; // Indicate async response
+                    
                 } else if (request.action === 'getPageInfo') {
                     debugLog('Page info request received');
                     
@@ -901,17 +904,26 @@
                     };
                     
                     debugLog('Sending page info:', pageInfo);
+                    
+                    // Send response immediately
                     sendResponse(pageInfo);
+                    return true; // Indicate async response
+                } else {
+                    // Unknown action
+                    debugLog('Unknown action:', request.action);
+                    sendResponse({ error: 'Unknown action', found: false });
+                    return true;
                 }
                 
-                return true; // Will respond asynchronously
             } catch (error) {
                 console.error('Error handling message:', error);
-                sendResponse({
+                const errorResponse = {
                     error: error.message,
                     found: false,
                     debug: [`Message handling error: ${error.message}`]
-                });
+                };
+                sendResponse(errorResponse);
+                return true; // Indicate async response even for errors
             }
         });
     }
