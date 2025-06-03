@@ -35,7 +35,15 @@
             '[class*="academic"]',
             '[class*="student"]',
             '.report-content',
-            '.content-panel'
+            '.content-panel',
+            '._ttlPlan',
+            '._prsntPlan',
+            '[class*="_ttlPlan"]',
+            '[class*="_prsntPlan"]',
+            '#cum_slots',
+            '#cum_present',
+            '[id*="cum_slots"]',
+            '[id*="cum_present"]'
         ]
     };
 
@@ -83,7 +91,122 @@
         const result = { totalClasses: null, attendedClasses: null, found: false, debug: [] };
         
         try {
-            // Look for TCS-specific containers first
+            debugLog('Searching for TCS iON specific elements...');
+            
+            // Method 1: Direct ID-based search (most reliable for TCS iON)
+            const totalElement = document.getElementById('cum_slots');
+            const presentElement = document.getElementById('cum_present');
+            
+            if (totalElement && presentElement) {
+                const totalText = safeGetText(totalElement).trim();
+                const presentText = safeGetText(presentElement).trim();
+                
+                debugLog('Found TCS elements by ID:', { total: totalText, present: presentText });
+                
+                const totalNum = parseInt(totalText, 10);
+                const presentNum = parseInt(presentText, 10);
+                
+                if (!isNaN(totalNum) && !isNaN(presentNum) && totalNum > 0 && presentNum >= 0) {
+                    result.totalClasses = totalNum;
+                    result.attendedClasses = presentNum;
+                    result.found = true;
+                    result.debug.push(`Direct ID extraction: Found ${presentNum}/${totalNum} via cum_slots and cum_present`);
+                    debugLog('✅ Successfully extracted via direct ID search');
+                    return result;
+                }
+            }
+            
+            // Method 2: Class-based search for TCS iON structure (_ttlPlan and _prsntPlan)
+            const totalDiv = document.querySelector('._ttlPlan');
+            const presentDiv = document.querySelector('._prsntPlan');
+            
+            if (totalDiv && presentDiv) {
+                debugLog('Found TCS divs by class');
+                
+                // Look for the value elements within these divs
+                const totalValueElement = totalDiv.querySelector('._value') || 
+                                        totalDiv.querySelector('#cum_slots') ||
+                                        totalDiv.querySelector('[id*="cum_slots"]');
+                                        
+                const presentValueElement = presentDiv.querySelector('._value') || 
+                                          presentDiv.querySelector('#cum_present') ||
+                                          presentDiv.querySelector('[id*="cum_present"]');
+                
+                if (totalValueElement && presentValueElement) {
+                    const totalText = safeGetText(totalValueElement).trim();
+                    const presentText = safeGetText(presentValueElement).trim();
+                    
+                    debugLog('Found values in TCS divs:', { total: totalText, present: presentText });
+                    
+                    const totalNum = parseInt(totalText, 10);
+                    const presentNum = parseInt(presentText, 10);
+                    
+                    if (!isNaN(totalNum) && !isNaN(presentNum) && totalNum > 0 && presentNum >= 0) {
+                        result.totalClasses = totalNum;
+                        result.attendedClasses = presentNum;
+                        result.found = true;
+                        result.debug.push(`Class-based extraction: Found ${presentNum}/${totalNum} via _ttlPlan and _prsntPlan`);
+                        debugLog('✅ Successfully extracted via class search');
+                        return result;
+                    }
+                }
+            }
+            
+            // Method 3: Enhanced backup search for TCS iON elements
+            debugLog('Enhanced backup search for TCS elements...');
+            
+            // Search for elements containing TCS-specific IDs and classes
+            const allTCSElements = document.querySelectorAll(
+                '._ttlPlan, ._prsntPlan, [class*="_ttlPlan"], [class*="_prsntPlan"], ' +
+                '#cum_slots, #cum_present, [id*="cum_slots"], [id*="cum_present"]'
+            );
+            
+            debugLog(`Enhanced backup search found ${allTCSElements.length} TCS elements`);
+            
+            let foundTotal = null;
+            let foundPresent = null;
+            
+            for (const element of allTCSElements) {
+                const text = safeGetText(element).trim();
+                const className = element.className || '';
+                const id = element.id || '';
+                
+                debugLog(`Checking element: class="${className}", id="${id}", text="${text}"`);
+                
+                // Check for total classes (cum_slots or _ttlPlan)
+                if ((className.includes('_ttlPlan') || id.includes('cum_slots')) && !foundTotal) {
+                    const num = parseInt(text, 10);
+                    if (!isNaN(num) && num > 0) {
+                        foundTotal = num;
+                        result.debug.push(`Enhanced backup total found: ${num} in element with class="${className}" id="${id}"`);
+                    }
+                }
+                
+                // Check for present classes (cum_present or _prsntPlan)
+                if ((className.includes('_prsntPlan') || id.includes('cum_present')) && !foundPresent) {
+                    const num = parseInt(text, 10);
+                    if (!isNaN(num) && num >= 0) {
+                        foundPresent = num;
+                        result.debug.push(`Enhanced backup present found: ${num} in element with class="${className}" id="${id}"`);
+                    }
+                }
+                
+                // Early exit if both found
+                if (foundTotal !== null && foundPresent !== null) {
+                    break;
+                }
+            }
+            
+            if (foundTotal !== null && foundPresent !== null) {
+                result.totalClasses = foundTotal;
+                result.attendedClasses = foundPresent;
+                result.found = true;
+                result.debug.push(`Enhanced backup search: Found ${foundPresent}/${foundTotal}`);
+                debugLog('✅ Successfully extracted via enhanced backup search');
+                return result;
+            }
+            
+            // Method 4: Fallback to original TCS container search
             const tcsContainers = document.querySelectorAll(PATTERNS.tcsSelectors.join(','));
             debugLog(`Found ${tcsContainers.length} TCS-specific containers`);
             
@@ -96,6 +219,7 @@
                     return result;
                 }
             }
+            
         } catch (error) {
             debugLog('Error in TCS specific search:', error.message);
             result.debug.push(`TCS search error: ${error.message}`);
