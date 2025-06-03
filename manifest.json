@@ -5,7 +5,8 @@
   "description": "A minimalist attendance calculator with TCS iON auto-detection to help students track their attendance",
   "permissions": [
     "storage",
-    "activeTab"
+    "activeTab",
+    "scripting"
   ],
   "host_permissions": [
     "*://*.tcsondemand.com/*",

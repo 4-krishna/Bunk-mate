@@ -69,35 +69,13 @@
 3. **Identify Patterns**: Find how total/attended classes are displayed
 4. **Use Debug Script**: Run the enhanced debug script in console
 
-## 📋 Debug Scripts Available
-
-### 🎯 TCS iON Specific Debug Script (Recommended)
-**File**: `debug-tcs-specific.js`
-**Use for**: Your specific TCS iON portal with cum_slots and cum_present elements
-
-1. Navigate to your TCS iON attendance page: `https://g21.tcsion.com/SelfServices/home?urn=16365963#`
-2. Open Developer Tools (F12) → Console tab
-3. Copy and paste the entire content of `debug-tcs-specific.js`
-4. Press Enter and analyze the detailed output
-
-**This script will test**:
-- Direct ID search for `cum_slots` and `cum_present` elements
-- Class-based search for `_ttlPlan` and `_prsntPlan` divs
-- All TCS-specific element patterns
-- Number extraction and validation
-
-### 🔍 General Debug Scripts
-**File**: `debug-extraction-enhanced.js` - Comprehensive debugging for all page types
-**File**: `debug-live-extraction.js` - Real-time debugging with mutation observer
-**File**: `debug-minimal.js` - Quick testing script
-
 ## 📋 Debug Script Usage
 
-For your TCS iON portal, use the TCS-specific debug script:
+Copy this into your browser console on any TCS iON page:
 
 ```javascript
-// Copy the entire content from debug-tcs-specific.js
-// This will analyze your specific TCS iON page structure
+// Copy the content from debug-extraction-enhanced.js
+// This will analyze the page and show potential attendance data
 ```
 
 The script will show:

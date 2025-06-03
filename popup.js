@@ -64,13 +64,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 'tcs.com',
                 'tcsonlineadvocacy.com',
                 'fresco.tcs.com',
+                'tcsion.com', // Added for g21.tcsion.com and other TCS iON domains
                 'localhost', // For testing
                 'file://' // For local test files
             ];
             
-            const isSupported = supportedDomains.some(domain => url.includes(domain));
+            const urlLower = url.toLowerCase();
+            const isSupported = supportedDomains.some(domain => urlLower.includes(domain.toLowerCase()));
             
-            if (!isSupported && !url.includes('test') && !url.includes('bunk-mate')) {
+            console.log('URL check:', { url: url, urlLower: urlLower, isSupported: isSupported });
+            
+            if (!isSupported && !urlLower.includes('test') && !urlLower.includes('bunk-mate')) {
+                console.log('URL not supported. Supported domains:', supportedDomains);
                 showAutoStatus('Please navigate to TCS iON portal or a test page first', 'error');
                 return;
             }
@@ -83,9 +88,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 pageInfo = await chrome.tabs.sendMessage(tab.id, { action: 'getPageInfo' });
                 console.log('Page info:', pageInfo);
             } catch (error) {
-                console.log('Could not get page info, content script might not be loaded');
-                showAutoStatus('Refreshing page... Please try again in a moment.', 'info');
-                chrome.tabs.reload(tab.id);
+                console.log('Content script not loaded, attempting to inject...', error.message);
+                showAutoStatus('Initializing... Please try again in a moment.', 'info');
+                
+                // Try to inject content script manually for already-open pages
+                try {
+                    await chrome.scripting.executeScript({
+                        target: { tabId: tab.id },
+                        files: ['content.js']
+                    });
+                    showAutoStatus('Initialized. Please click "Detect from TCS iON" again.', 'success');
+                } catch (injectError) {
+                    console.log('Could not inject content script:', injectError.message);
+                    showAutoStatus('Please refresh the page and try again.', 'error');
+                }
                 return;
             }
 

@@ -1,6 +1,10 @@
 (() => {
     'use strict';
 
+    // Content script initialization
+    console.log('[Bunk Mate Content Script] Loading on:', window.location.href);
+    console.log('[Bunk Mate Content Script] Page title:', document.title);
+
     // Enhanced configuration for TCS iON portal layouts
     const PATTERNS = {
         // Text patterns to look for
