@@ -28,11 +28,11 @@
 4. **Auto-Detect**: Click "Detect from TCS iON"
 5. **Manual Fallback**: If auto-detection fails, enter numbers manually
 
-### Method 3: Debug with Console
+### Method 3: Debug with Console (Recommended for TCS iON)
 1. **Open Developer Tools**: Press F12 on any TCS iON page
 2. **Go to Console Tab**: Click the "Console" tab
-3. **Run Debug Script**: Copy and paste the enhanced debug script
-4. **Analyze Results**: Look for attendance patterns in the output
+3. **Run TCS-Specific Script**: Copy and paste the content from `debug-tcs-specific.js`
+4. **Analyze Results**: Look for cum_slots and cum_present element detection
 
 ## 🔧 Troubleshooting
 
@@ -69,13 +69,35 @@
 3. **Identify Patterns**: Find how total/attended classes are displayed
 4. **Use Debug Script**: Run the enhanced debug script in console
 
+## 📋 Debug Scripts Available
+
+### 🎯 TCS iON Specific Debug Script (Recommended)
+**File**: `debug-tcs-specific.js`
+**Use for**: Your specific TCS iON portal with cum_slots and cum_present elements
+
+1. Navigate to your TCS iON attendance page: `https://g21.tcsion.com/SelfServices/home?urn=16365963#`
+2. Open Developer Tools (F12) → Console tab
+3. Copy and paste the entire content of `debug-tcs-specific.js`
+4. Press Enter and analyze the detailed output
+
+**This script will test**:
+- Direct ID search for `cum_slots` and `cum_present` elements
+- Class-based search for `_ttlPlan` and `_prsntPlan` divs
+- All TCS-specific element patterns
+- Number extraction and validation
+
+### 🔍 General Debug Scripts
+**File**: `debug-extraction-enhanced.js` - Comprehensive debugging for all page types
+**File**: `debug-live-extraction.js` - Real-time debugging with mutation observer
+**File**: `debug-minimal.js` - Quick testing script
+
 ## 📋 Debug Script Usage
 
-Copy this into your browser console on any TCS iON page:
+For your TCS iON portal, use the TCS-specific debug script:
 
 ```javascript
-// Copy the content from debug-extraction-enhanced.js
-// This will analyze the page and show potential attendance data
+// Copy the entire content from debug-tcs-specific.js
+// This will analyze your specific TCS iON page structure
 ```
 
 The script will show:
