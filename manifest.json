@@ -3,7 +3,7 @@
   "name": "Bunk Mate",
   "version": "2.1.0",
   "description": "Smart attendance manager with auto-detection and bunk calculator for TCS iON portal",
-  "author": "4-krishna (https://github.com/4-krishna)",
+  "author": "4-krishna & devag7 (https://github.com/4-krishna)",
   "homepage_url": "https://github.com/4-krishna/Bunk-mate",
   "permissions": [
     "storage",

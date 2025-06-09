@@ -2,7 +2,7 @@
  * Bunk Mate - MVP Focus: Bunk Calculator
  * Popup script optimized for bunk counting
  * 
- * @author 4-krishna (https://github.com/4-krishna)
+ * @author 4-krishna (https://github.com/4-krishna) & devag7 (https://github.com/devag7)
  * @version 2.1.0
  */
 

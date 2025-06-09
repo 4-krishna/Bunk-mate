@@ -186,7 +186,7 @@ Bunk-mate/
 
 **Made with ❤️ for students who want to bunk smartly!**
 
-- **GitHub**: [@4-krishna](https://github.com/4-krishna)
+- **GitHub**: [@4-krishna](https://github.com/4-krishna) & [@devag7](https://github.com/devag7)
 - **Issues**: Use GitHub Issues for support
 - **Email**: Available in GitHub profile
 

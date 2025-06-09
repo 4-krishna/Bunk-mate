@@ -13,7 +13,7 @@
 
 ### 🔧 Production Optimizations
 - ✅ Clean project structure with only essential files
-- ✅ All GitHub references updated to @4-krishna
+- ✅ All GitHub references updated to @4-krishna & @devag7
 - ✅ Proper author attribution in all source files
 - ✅ Production-ready manifest.json configuration
 - ✅ Comprehensive README.md documentation
@@ -42,13 +42,13 @@ Bunk-mate/
 - **Responsive Layout**: Optimized for Chrome extension popup constraints
 - **Intuitive UX**: Clear input fields with helpful placeholders
 - **Visual Feedback**: Color-coded results (safe=green, warning=orange, danger=red)
-- **Branded Footer**: "Made with ❤️ by @4-krishna" with GitHub link
+- **Branded Footer**: "Made with ❤️ by @4-krishna & @devag7" with GitHub links
 
 ### 🔗 GitHub Integration
 - **Repository**: https://github.com/4-krishna/Bunk-mate
-- **Author**: @4-krishna (consistently referenced throughout)
+- **Author**: @4-krishna & @devag7 (consistently referenced throughout)
 - **Homepage**: Linked in manifest.json for Chrome Web Store
-- **Clickable Links**: Footer contains working GitHub profile link
+- **Clickable Links**: Footer contains working GitHub profile links
 
 ### 📦 Next Steps for Distribution
 1. **Chrome Web Store**: Ready for upload and review
