@@ -2,7 +2,7 @@
  * Bunk Mate - Content Script for TCS iON Data Extraction
  * Automatically extracts attendance data from TCS portals
  * 
- * @author devag7 (https://github.com/devag7)
+ * @author 4-krishna (https://github.com/4-krishna)
  * @version 2.1.0
  */
 (() => {
