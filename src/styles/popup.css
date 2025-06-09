@@ -1,0 +1,417 @@
+/**
+ * Bunk Mate MVP - Focus on Bunk Calculator
+ * CSS styles optimized for bunk-calculator-first experience
+ * 
+ * @author devag7 (https://github.com/devag7)
+ * @version 2.1.0
+ */
+
+:root {
+    --bunk-primary: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    --bunk-success: linear-gradient(135deg, #00d2d3 0%, #54a0ff 100%);
+    --bunk-warning: linear-gradient(135deg, #ff9f43 0%, #feca57 100%);
+    --bunk-danger: linear-gradient(135deg, #ff6b6b 0%, #ff5722 100%);
+    --surface: #ffffff;
+    --background: #f8fafc;
+    --text-primary: #1a202c;
+    --text-secondary: #718096;
+    --border: #e2e8f0;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 400px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--background);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.container {
+    background: var(--surface);
+    box-shadow: var(--shadow-xl);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* Header - Bunk-focused */
+.header {
+    background: var(--bunk-primary);
+    padding: 24px 20px;
+    text-align: center;
+    color: white;
+    position: relative;
+}
+
+.header h1 {
+    font-size: 32px;
+    font-weight: 900;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.header .subtitle {
+    font-size: 16px;
+    opacity: 0.95;
+    font-weight: 500;
+}
+
+.content {
+    padding: 24px 20px;
+}
+
+/* Minimal Detection Status */
+.detection-status {
+    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+    border-radius: 10px;
+    padding: 10px 16px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+}
+
+.detection-status .icon {
+    font-size: 14px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* MVP HERO: The Bunk Calculator */
+.bunk-calculator-hero {
+    background: white;
+    border-radius: 20px;
+    border: 2px solid #e2e8f0;
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-xl);
+}
+
+/* Quick Stats - Compact */
+.quick-stats {
+    background: var(--bunk-success);
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-around;
+    color: white;
+}
+
+.quick-stats .stat {
+    text-align: center;
+}
+
+.quick-stats .value {
+    font-size: 18px;
+    font-weight: 700;
+    display: block;
+}
+
+.quick-stats .label {
+    font-size: 11px;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* The Hero Section - Main Bunk Calculator */
+.bunk-hero {
+    padding: 30px 24px;
+    text-align: center;
+}
+
+.hero-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: var(--text-primary);
+}
+
+.target-setting {
+    margin-bottom: 24px;
+}
+
+.target-setting label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+}
+
+.percentage-input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.percentage-input input {
+    width: 80px;
+    padding: 12px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    background: #f7fafc;
+    transition: all 0.2s;
+}
+
+.percentage-input input:focus {
+    outline: none;
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+}
+
+.percentage-input span {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+/* Hero Button - The Main CTA */
+.calculate-hero-btn {
+    background: var(--bunk-primary);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    padding: 16px 32px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 auto;
+}
+
+.calculate-hero-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+}
+
+.calculate-hero-btn:active {
+    transform: translateY(0);
+}
+
+.btn-icon {
+    font-size: 18px;
+}
+
+/* THE MONEY SHOT - Bunk Result Hero */
+.bunk-result-hero {
+    margin-top: 24px;
+    padding: 24px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 16px;
+    color: white;
+    text-align: center;
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.result-big {
+    margin-bottom: 16px;
+}
+
+.result-number {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.result-label {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.9;
+    margin-top: 4px;
+}
+
+.result-message {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.result-subtext {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+/* Manual Input Fallback - Collapsed by default */
+.manual-fallback {
+    background: #f7fafc;
+    border-radius: 12px;
+    margin-bottom: 16px;
+}
+
+.manual-fallback details {
+    padding: 16px;
+}
+
+.manual-fallback summary {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    list-style: none;
+    position: relative;
+    padding-left: 20px;
+}
+
+.manual-fallback summary::-webkit-details-marker {
+    display: none;
+}
+
+.manual-fallback summary::before {
+    content: '▶';
+    position: absolute;
+    left: 0;
+    transition: transform 0.2s;
+}
+
+.manual-fallback details[open] summary::before {
+    transform: rotate(90deg);
+}
+
+.manual-inputs {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.input-group {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.input-group input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.manual-update-btn {
+    background: var(--bunk-success);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* Status Messages */
+.status-message {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.status-message.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status-message.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Footer */
+.footer {
+    padding: 16px 20px;
+    background: #f7fafc;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.footer .tagline {
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.footer .author {
+    font-size: 11px;
+    opacity: 0.8;
+}
+
+.footer .author a {
+    color: #ff6b6b;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.footer .author a:hover {
+    color: #ee5a24;
+    text-decoration: underline;
+}
+
+/* Utility Classes */
+.hidden {
+    display: none !important;
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    body {
+        width: 100%;
+        max-width: 400px;
+    }
+    
+    .hero-title {
+        font-size: 20px;
+    }
+    
+    .result-number {
+        font-size: 40px;
+    }
+}

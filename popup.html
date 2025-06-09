@@ -1,269 +1,98 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bunk Mate</title>
-    <style>
-        :root {
-            --primary-color: #007AFF;
-            --background-color: #F5F5F7;
-            --text-color: #1D1D1F;
-            --border-color: #D2D2D7;
-            --shadow-color: rgba(0, 0, 0, 0.08);
-            --transition-speed: 0.3s;
-        }
-
-        body {
-            width: 340px;
-            margin: 0;
-            padding: 24px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.5;
-        }
-
-        .container {
-            background-color: white;
-            border-radius: 24px;
-            padding: 28px;
-            box-shadow: 0 8px 24px var(--shadow-color);
-            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-        }
-
-        .container:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 32px var(--shadow-color);
-        }
-
-        h1 {
-            font-size: 20px;
-            font-weight: 600;
-            margin: 0 0 20px;
-            text-align: center;
-            color: var(--primary-color);
-        }
-
-        .auto-section {
-            margin-bottom: 20px;
-            padding: 16px;
-            background-color: var(--background-color);
-            border-radius: 16px;
-            border: 2px solid var(--border-color);
-        }
-
-        .auto-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-color);
-        }
-
-        .auto-icon {
-            margin-right: 8px;
-            font-size: 16px;
-        }
-
-        .manual-section {
-            margin-bottom: 20px;
-        }
-
-        .section-header {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: var(--text-color);
-        }
-
-        .secondary-button {
-            width: 100%;
-            padding: 12px;
-            background-color: #F2F2F7;
-            color: var(--primary-color);
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all var(--transition-speed);
-            margin-bottom: 8px;
-        }
-
-        .secondary-button:hover {
-            background-color: #E5E5EA;
-            border-color: var(--primary-color);
-        }
-
-        .auto-status {
-            font-size: 12px;
-            padding: 8px 12px;
-            border-radius: 8px;
-            margin-top: 8px;
-            text-align: center;
-        }
-
-        .auto-status.success {
-            background-color: #E8F5E9;
-            color: #2E7D32;
-        }
-
-        .auto-status.error {
-            background-color: #FFEBEE;
-            color: #C62828;
-        }
-
-        .auto-status.info {
-            background-color: #E3F2FD;
-            color: #1976D2;
-        }
-
-        .github-link {
-            display: block;
-            text-align: center;
-            margin-top: 16px;
-            font-size: 12px;
-            color: var(--primary-color);
-            text-decoration: none;
-            opacity: 0.8;
-            transition: opacity 0.2s;
-        }
-
-        .github-link:hover {
-            opacity: 1;
-        }
-
-        .input-group {
-            margin-bottom: 16px;
-        }
-
-        label {
-            display: block;
-            font-size: 14px;
-            margin-bottom: 8px;
-            color: #86868B;
-        }
-
-        input {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid var(--border-color);
-            border-radius: 14px;
-            font-size: 16px;
-            outline: none;
-            transition: all var(--transition-speed);
-            box-sizing: border-box;
-            background-color: var(--background-color);
-        }
-
-        input:focus {
-            border-color: var(--primary-color);
-            background-color: white;
-            box-shadow: 0 4px 12px var(--shadow-color);
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 14px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all var(--transition-speed);
-            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2);
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0, 122, 255, 0.3);
-        }
-
-        button:active {
-            transform: translateY(0);
-            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2);
-        }
-
-        .result {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-color);
-            text-align: center;
-        }
-
-        .percentage {
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin: 8px 0;
-        }
-
-        .status {
-            font-size: 14px;
-            margin-top: 12px;
-            padding: 16px 20px;
-            border-radius: 12px;
-            display: inline-block;
-            white-space: pre-line;
-            line-height: 1.6;
-            transition: all var(--transition-speed);
-            box-shadow: 0 4px 12px var(--shadow-color);
-        }
-
-        .status.good {
-            background-color: #E8F5E9;
-            color: #2E7D32;
-        }
-
-        .status.warning {
-            background-color: #FFF3E0;
-            color: #E65100;
-            font-weight: 500;
-        }
-
-        .status.danger {
-            background-color: #FFEBEE;
-            color: #C62828;
-            font-weight: 500;
-        }
-    </style>
+    <link rel="stylesheet" href="src/styles/popup.css">
 </head>
 <body>
     <div class="container">
-        <h1>Bunk Mate</h1>
-        
-        <!-- Auto-detection section -->
-        <div class="auto-section" id="autoSection">
-            <div class="auto-header">
-                <span class="auto-icon">🔍</span>
-                <span>Auto-Detection</span>
-            </div>
-            <button id="autoDetect" class="secondary-button">Detect from TCS iON</button>
-            <div class="auto-status" id="autoStatus" style="display: none;"></div>
+        <!-- Header -->
+        <div class="header">
+            <h1>🎯 Bunk Mate</h1>
+            <div class="subtitle">How many classes can you safely bunk?</div>
         </div>
 
-        <!-- Manual input section -->
-        <div class="manual-section">
-            <div class="section-header">Manual Input</div>
-            <div class="input-group">
-                <label for="totalClasses">Total Classes</label>
-                <input type="number" id="totalClasses" min="1" placeholder="Enter total number of classes">
+        <div class="content">
+            <!-- Auto-Detection Status - Minimal -->
+            <div class="detection-status" id="autoDetection">
+                <span class="icon" id="autoIcon">🔍</span>
+                <span class="text" id="autoStatus">Detecting attendance...</span>
             </div>
-            <div class="input-group">
-                <label for="attendedClasses">Classes Attended</label>
-                <input type="number" id="attendedClasses" min="0" placeholder="Enter classes attended">
+
+            <!-- MVP: THE BUNK CALCULATOR -->
+            <div class="bunk-calculator-hero" id="bunkCalculator">
+                <!-- Quick Stats (from TCS data or manual) -->
+                <div class="quick-stats hidden" id="attendanceDisplay">
+                    <div class="stat">
+                        <span class="value" id="currentPercentage">--</span>
+                        <span class="label">Current %</span>
+                    </div>
+                    <div class="stat">
+                        <span class="value" id="presentCount">--</span>/<span id="totalCount">--</span>
+                        <span class="label">Present/Total</span>
+                    </div>
+                </div>
+
+                <!-- THE MAIN EVENT: Bunk Calculator -->
+                <div class="bunk-hero">
+                    <div class="hero-title">🚀 Safe Bunk Calculator</div>
+                    
+                    <div class="target-setting">
+                        <label>Keep attendance above:</label>
+                        <div class="percentage-input">
+                            <input type="number" id="targetPercentage" value="75" min="50" max="100">
+                            <span>%</span>
+                        </div>
+                    </div>
+                    
+                    <button class="calculate-hero-btn" id="calculateBunks">
+                        <span class="btn-icon">🎯</span>
+                        Calculate My Safe Bunks
+                    </button>
+                    
+                    <!-- THE MONEY SHOT - Bunk Result -->
+                    <div class="bunk-result-hero hidden" id="bunkResult">
+                        <div class="result-big">
+                            <div class="result-number" id="bunkCount">0</div>
+                            <div class="result-label">Safe Bunks</div>
+                        </div>
+                        <div class="result-message" id="bunkMessage">
+                            You can safely skip <strong id="bunkCountText">0</strong> more classes!
+                        </div>
+                        <div class="result-subtext" id="bunkSubtext">
+                            While maintaining <span id="targetDisplay">75</span>% attendance
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <!-- Fallback: Manual Input (Collapsible) -->
+            <div class="manual-fallback">
+                <details>
+                    <summary>📝 Manual Input (if auto-detection fails)</summary>
+                    <div class="manual-inputs">
+                        <div class="input-group">
+                            <input type="number" id="attendedClasses" placeholder="Classes attended" min="0">
+                            <input type="number" id="totalClasses" placeholder="Total classes" min="1">
+                        </div>
+                        <button class="manual-update-btn" id="calculate">Update Data</button>
+                    </div>
+                </details>
+            </div>
+
+            <!-- Status Messages -->
+            <div id="statusMessage" class="status-message hidden"></div>
         </div>
-        
-        <button id="calculate">Calculate Attendance</button>
-        <div class="result" id="result" style="display: none;">
-            <div class="percentage" id="percentage">0%</div>
-            <div class="status" id="status"></div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="tagline">Focus on what matters: <strong>How many can I bunk?</strong></div>
+            <div class="author">Made with ❤️ by <a href="https://github.com/devag7" target="_blank">@devag7</a></div>
         </div>
     </div>
-    <a href="https://github.com/4-krishna" target="_blank" class="github-link">View on GitHub</a>
-    <script src="popup.js"></script>
+
+    <script src="src/scripts/popup.js"></script>
 </body>
 </html>
